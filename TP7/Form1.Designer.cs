@@ -1,4 +1,4 @@
-﻿namespace TP7
+﻿namespace Projet
 {
     partial class Form1
     {
@@ -55,6 +55,10 @@
             button18 = new Button();
             button20 = new Button();
             labelZoom = new Label();
+            openFile = new OpenFileDialog();
+            saveFile = new SaveFileDialog();
+            buttonSave = new Button();
+            btnCharger = new Button();
             panelCouleurs.SuspendLayout();
             panelSelect.SuspendLayout();
             panelPinceau.SuspendLayout();
@@ -389,11 +393,49 @@
             labelZoom.TabIndex = 9;
             labelZoom.Text = "Zoom : 100%";
             // 
+            // openFile
+            // 
+            openFile.Title = "Ouvrir un fichier sauvegardé";
+            // 
+            // saveFile
+            // 
+            saveFile.DefaultExt = "json";
+            saveFile.Filter = "Fichier Dessin (*.json)|*.json|Tous les fichiers (*.*)|*.*";
+            saveFile.Title = "Sauvegarder Votre Dessin";
+            // 
+            // buttonSave
+            // 
+            buttonSave.BackgroundImage = (Image)resources.GetObject("buttonSave.BackgroundImage");
+            buttonSave.BackgroundImageLayout = ImageLayout.Stretch;
+            buttonSave.FlatStyle = FlatStyle.Flat;
+            buttonSave.Location = new Point(54, 559);
+            buttonSave.Margin = new Padding(3, 4, 3, 4);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Size = new Size(55, 45);
+            buttonSave.TabIndex = 10;
+            buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
+            // 
+            // btnCharger
+            // 
+            btnCharger.BackgroundImage = (Image)resources.GetObject("btnCharger.BackgroundImage");
+            btnCharger.BackgroundImageLayout = ImageLayout.Stretch;
+            btnCharger.FlatStyle = FlatStyle.Flat;
+            btnCharger.Location = new Point(0, 559);
+            btnCharger.Margin = new Padding(3, 4, 3, 4);
+            btnCharger.Name = "btnCharger";
+            btnCharger.Size = new Size(55, 45);
+            btnCharger.TabIndex = 11;
+            btnCharger.UseVisualStyleBackColor = true;
+            btnCharger.Click += btnCharger_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(914, 600);
+            Controls.Add(btnCharger);
+            Controls.Add(buttonSave);
             Controls.Add(labelZoom);
             Controls.Add(panelPinceau);
             Controls.Add(btnPinceau);
@@ -444,5 +486,9 @@
         private Button button18;
         private Button button20;
         private Label labelZoom;
+        private OpenFileDialog openFile;
+        private SaveFileDialog saveFile;
+        private Button buttonSave;
+        private Button btnCharger;
     }
 }

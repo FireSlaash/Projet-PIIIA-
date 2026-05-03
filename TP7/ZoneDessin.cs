@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TP7
+namespace Projet
 {
     internal class ZoneDessin : Control
     {
@@ -158,6 +158,7 @@ namespace TP7
             lastMousePosition = pointAjuste;
             SelectionChangee?.Invoke(this, EventArgs.Empty);
         }
+
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -366,6 +367,7 @@ namespace TP7
 
             }
         }
+        // Gestion du zoom avec la molette de la souris
         private void ZoneDessin_MouseWheel(object sender, MouseEventArgs e)
         {
             if (e.Delta > 0)
@@ -375,7 +377,7 @@ namespace TP7
 
             // On déclenche l'événement pour prévenir le controleur
             ZoomChangee?.Invoke(this, EventArgs.Empty);
-            this.Invalidate(); // On redessine tout
+            this.Invalidate();
         }
 
     }

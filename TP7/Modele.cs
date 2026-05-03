@@ -4,31 +4,62 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-
-namespace TP7
+namespace Projet
 {
+    // FormeGeo est la classe de base pour toutes les formes géométriques.
+    // Elle est marquée avec des attributs JsonDerivedType pour permettre la sérialisation polymorphique.
+    [JsonDerivedType(typeof(Rectangle), typeDiscriminator: "rect")]
+    [JsonDerivedType(typeof(Disque), typeDiscriminator: "disq")]
+    [JsonDerivedType(typeof(Trait), typeDiscriminator: "trait")]
     public abstract class FormeGeo
     {
-        public Point Position { get; set; }
+        [JsonIgnore]
+        // Les propriétés de type Color ne sont pas directement sérialisables, donc on les ignore et on utilise des propriétés auxiliaires pour stocker les valeurs ARGB.
         public Color Couleur { get; set; } = Color.White;
 
+        [JsonIgnore]
+        // Pareil
         public Color CouleurPinceau { get; set; } = Color.Black;
+
+        [JsonPropertyName("CouleurArgb")]
+        // Propriété auxiliaire pour sérialiser la couleur en ARGB
+        public int CouleurArgb
+        {
+            get => Couleur.ToArgb();
+            set => Couleur = Color.FromArgb(value);
+        }
+        // Propriété auxiliaire pour sérialiser la couleur du pinceau en ARGB
+        [JsonPropertyName("PinceauArgb")]
+        public int PinceauArgb
+        {
+            get => CouleurPinceau.ToArgb();
+            set => CouleurPinceau = Color.FromArgb(value);
+        }
+        // Position est le point de référence pour la forme
+        public Point Position { get; set; }
+
         public FormeGeo(Point p)
         {
             this.Position = p;
         }
 
+        public FormeGeo() { }
+
         public abstract bool contient(Point p);
         public abstract FormeGeo Cloner();
     }
 
+    // Rectangle hérite de FormeGeo et ajoute des propriétés spécifiques pour la largeur et la hauteur.
     public class Rectangle : FormeGeo
     {
         public int Largeur { get; set; }
         public int Hauteur { get; set; }
         public Rectangle(Point point) : base(point)
         {}
+        public Rectangle() : base() { }
+
 
         public override bool contient(Point p)
         {
@@ -50,11 +81,14 @@ namespace TP7
         }
     }
 
+    // Disque hérite de FormeGeo et ajoute une propriété pour le rayon.
+
     public class Disque : FormeGeo
     {
         public int Rayon { get; set; }
         public Disque(Point point) : base(point)
         { }
+        public Disque() : base() { }
 
         public override bool contient(Point p)
         {
@@ -72,6 +106,8 @@ namespace TP7
         }
     }
 
+    // Trait hérite de FormeGeo et ajoute une propriété pour le point de fin du trait.
+
     public class Trait : FormeGeo
     {
         public Point Fin { get; set; }
@@ -81,6 +117,7 @@ namespace TP7
             this.Fin = debut;
             this.CouleurPinceau = Color.Black;
         }
+        public Trait() : base() { }
 
         public override bool contient(Point p)
         {
@@ -119,10 +156,16 @@ namespace TP7
     }
 
 
+
+    // Modele est la classe qui gère la collection de formes géométriques. Elle fournit des méthodes pour ajouter, supprimer, et accéder aux formes.
+
     internal class Modele
     {
         private List<FormeGeo> formes = new List<FormeGeo>();
 
+        public Modele()
+        {
+        }
         public void AjouterForme(FormeGeo forme)
         {
             formes.Add(forme);
@@ -150,6 +193,16 @@ namespace TP7
         public void AjouterDebutForme(FormeGeo forme)
         {
             formes.Insert(0, forme);
+        }
+
+        public List<FormeGeo> GetFormes()
+        {
+            return formes;
+        }
+
+        public void Clear()
+        {
+            formes.Clear();
         }
 
     }

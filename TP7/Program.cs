@@ -1,4 +1,4 @@
-namespace TP7
+namespace Projet
 {
     internal static class Program
     {

@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Marc\\source\\repos\\Projet-PIIIA-\\TP7\\TP7.csproj",
-      "projectName": "TP7",
-      "projectPath": "C:\\Users\\Marc\\source\\repos\\Projet-PIIIA-\\TP7\\TP7.csproj",
+      "projectUniqueName": "C:\\Users\\Marc\\source\\repos\\Projet-PIIIA-\\TP7\\Projet.csproj",
+      "projectName": "Projet",
+      "projectPath": "C:\\Users\\Marc\\source\\repos\\Projet-PIIIA-\\TP7\\Projet.csproj",
       "packagesPath": "C:\\Users\\Marc\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Marc\\source\\repos\\Projet-PIIIA-\\TP7\\obj\\",
       "projectStyle": "PackageReference",

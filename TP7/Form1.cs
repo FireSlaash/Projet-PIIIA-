@@ -1,4 +1,7 @@
-namespace TP7
+using System.Text.Json;
+
+
+namespace Projet
 {
     public partial class Form1 : Form
     {
@@ -26,7 +29,8 @@ namespace TP7
                 ActualiserStyleBoutons();
             };
 
-            zoneDessin.ZoomChangee += (s, e) => {
+            zoneDessin.ZoomChangee += (s, e) =>
+            {
                 labelZoom.Text = $"Zoom : {Math.Round(zoneDessin.niveauZoom * 100)}%";
             };
             this.zoneDessin = zoneDessin;
@@ -152,5 +156,87 @@ namespace TP7
 
             zoneDessin.Invalidate();
         }
+
+
+        private void btnSave_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+
+            // 1. Création de la fenêtre de dialogue
+            SaveFileDialog dialogueSauvegarde = new SaveFileDialog();
+
+            // 2. Configuration
+            dialogueSauvegarde.Filter = "Fichier Dessin (*.json)|*.json|Tous les fichiers (*.*)|*.*";
+            dialogueSauvegarde.Title = "Sauvegarder votre dessin";
+            dialogueSauvegarde.DefaultExt = "json";
+            dialogueSauvegarde.AddExtension = true;
+
+            // 3. Affichage
+            if (dialogueSauvegarde.ShowDialog() == DialogResult.OK)
+            {
+                // On récupère le chemin choisi par l'utilisateur
+                string cheminDuFichier = dialogueSauvegarde.FileName;
+
+                try
+                {
+                    // C'est ici qu'on utilise la sérialisation (dont on a parlé avant)
+                    string json = JsonSerializer.Serialize(modele.GetFormes());
+                    File.WriteAllText(cheminDuFichier, json);
+
+                    MessageBox.Show("Fichier sauvegardé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erreur lors de la sauvegarde : " + ex.Message);
+                }
+            }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+
+            saveFile.Filter = "Fichier Dessin (*.json)|*.json";
+
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                string chemin = saveFile.FileName;
+                try
+                {
+                    string json = JsonSerializer.Serialize(modele.GetFormes());
+                    File.WriteAllText(chemin, json);
+
+                    MessageBox.Show("Fichier sauvegardé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erreur lors de la sauvegarde : " + ex.Message);
+                }
+            }
+        }
+
+        private void btnCharger_Click(object sender, EventArgs e)
+        {
+            openFile.Filter = "Fichier Dessin (*.json)|*.json";
+
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                string chemin = openFile.FileName;
+
+                try
+                {
+                    string json = File.ReadAllText(chemin);
+                    var formes = JsonSerializer.Deserialize<List<FormeGeo>>(json);
+
+                    modele.Clear();
+                    foreach (var f in formes) modele.AjouterForme(f);
+                    zoneDessin.Invalidate();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Impossible d'ouvrir ce fichier : " + ex.Message);
+                }
+            }
+        }
+    
     }
 }
