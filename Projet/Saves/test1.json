@@ -1,0 +1,17 @@
+[
+    {
+        "$type":"disq",
+        "Rayon":40,
+        "CouleurArgb":-1,
+        "PinceauArgb":-16777216,
+        "Position":{"IsEmpty":false,"X":452,"Y":326}
+    },
+    {
+        "$type":"rect",
+        "Largeur":100,
+        "Hauteur":50,
+        "CouleurArgb":-1,
+        "PinceauArgb":-16777216,
+        "Position":{"IsEmpty":false,"X":395,"Y":217}
+    }
+]
